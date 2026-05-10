@@ -4,354 +4,144 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Google口コミラボ｜宿泊施設アンケートデモ</title>
-  <meta name="description" content="Google口コミラボの宿泊施設向けアンケートデモ画面。回答内容は保存されません。" />
+  <title>サンプルホテル山中湖｜ご宿泊アンケート</title>
+  <meta name="description" content="サンプルホテル山中湖のご宿泊アンケートページです。" />
 
   <style>
-    :root {
-      --navy: #102f44;
-      --navy2: #061d2c;
-      --blue: #126fb2;
-      --blue2: #1ba7e1;
-      --green: #00a884;
-      --green2: #21c997;
-      --orange: #ff9d2e;
-      --yellow: #ffd84d;
-      --sky: #eaf7ff;
-      --mint: #eafff8;
-      --bg: #f5fbff;
-      --white: #ffffff;
-      --text: #1b2b35;
-      --muted: #617782;
-      --line: #dcebf3;
-      --shadow: 0 20px 56px rgba(16, 47, 68, .16);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(27, 167, 225, .18), transparent 32%),
-        radial-gradient(circle at top right, rgba(0, 168, 132, .14), transparent 30%),
-        linear-gradient(180deg, #f5fbff 0%, #e9f7ff 100%);
-      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
-      line-height: 1.75;
-      letter-spacing: .025em;
-      font-feature-settings: "palt";
-    }
-
-    button, input, textarea, select { font: inherit; }
-    button { cursor: pointer; }
-
-    .page { min-height: 100vh; padding: 22px 14px 50px; }
-
-    .demo-label {
-      width: min(520px, 100%);
-      margin: 0 auto 14px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .92);
-      border: 1px solid var(--line);
-      color: var(--blue);
-      box-shadow: 0 8px 24px rgba(16, 47, 68, .06);
-      text-align: center;
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    .phone {
-      width: min(430px, 100%);
-      margin: 0 auto;
-      padding: 12px;
-      border-radius: 42px;
-      background: var(--navy2);
-      box-shadow: var(--shadow);
-    }
-
-    .screen { overflow: hidden; border-radius: 31px; background: #fff; }
-
-    .hero {
-      position: relative;
-      padding: 30px 24px 28px;
-      color: #fff;
-      background:
-        linear-gradient(135deg, rgba(16, 47, 68, .94), rgba(18, 111, 178, .84)),
-        url("https://www.begump.jp/wp-content/uploads/2025/03/%E5%AF%8C%E5%A3%AB%E5%B1%B1.jpg") center/cover;
-    }
-
-    .logo {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 25px;
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    .logo-mark {
-      width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: #fff;
-      color: var(--blue);
-      font-weight: 900;
-    }
-
-    .hero h1 {
-      position: relative;
-      z-index: 1;
-      margin: 0 0 10px;
-      font-size: 26px;
-      line-height: 1.33;
-      letter-spacing: -.02em;
-    }
-
-    .hero p {
-      position: relative;
-      z-index: 1;
-      margin: 0;
-      color: rgba(255,255,255,.86);
-      font-size: 14px;
-      font-weight: 650;
-    }
-
-    .facility {
-      position: relative;
-      z-index: 1;
-      margin-top: 18px;
-      padding: 13px 14px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, .13);
-      border: 1px solid rgba(255, 255, 255, .18);
-      color: rgba(255,255,255,.9);
-      font-size: 12px;
-      font-weight: 850;
-    }
-
-    .step-bar { padding: 16px 20px 0; background: #f8fcff; }
-    .progress-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: var(--muted); font-size: 12px; font-weight: 900; }
-    .progress-track { height: 8px; overflow: hidden; border-radius: 999px; background: #e4f1f8; }
-    .progress-fill { width: 65%; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--blue), var(--green)); }
-
-    .form-area { padding: 18px 20px 22px; background: #f8fcff; }
-
-    .form-card {
-      margin-bottom: 14px;
-      padding: 17px;
-      border-radius: 20px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 8px 20px rgba(16,47,68,.04);
-    }
-
-    .question-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
-    .question-title label { display: block; color: var(--navy); font-size: 14px; font-weight: 900; line-height: 1.55; }
-    .required { flex: 0 0 auto; display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 999px; background: #fff1e3; color: #d76d00; font-size: 10px; font-weight: 900; }
-
-    .rating { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
-    .rate { height: 42px; display: grid; place-items: center; border-radius: 13px; color: var(--muted); background: #eef7fc; border: 0; font-weight: 900; transition: .2s ease; }
-    .rate.is-selected { color: #fff; background: linear-gradient(135deg, var(--blue), var(--blue2)); box-shadow: 0 8px 18px rgba(18,111,178,.22); }
-
-    .choice-grid { display: grid; gap: 8px; }
-    .choice { display: flex; align-items: center; gap: 9px; min-height: 42px; padding: 10px 12px; border-radius: 14px; background: #fbfdff; border: 1px solid #d2e4ee; color: var(--text); font-size: 13px; font-weight: 750; }
-    .choice input { accent-color: var(--blue); }
-
-    textarea, select, input[type="text"] { width: 100%; min-height: 48px; border-radius: 14px; border: 1px solid #cfe3ee; background: #fbfdff; padding: 12px; color: var(--text); font-weight: 650; outline: none; }
-    textarea { min-height: 92px; resize: vertical; }
-    .hint { margin: 8px 0 0; color: var(--muted); font-size: 12px; font-weight: 700; }
-
-    .submit-btn { width: 100%; min-height: 54px; margin-top: 12px; border: 0; border-radius: 999px; color: var(--navy); background: linear-gradient(135deg, var(--orange), #ffc247); box-shadow: 0 14px 28px rgba(255, 157, 46, .28); font-weight: 900; }
-    .privacy { margin: 14px 0 0; color: var(--muted); font-size: 12px; font-weight: 700; text-align: center; }
-
-    .thanks-area { display: none; padding: 26px 20px 28px; background: #f8fcff; }
-    .thanks-area.is-show { display: block; }
-    .thanks-card { padding: 22px; border-radius: 24px; background: #fff; border: 1px solid var(--line); box-shadow: 0 12px 32px rgba(16,47,68,.08); }
-    .check-icon { width: 58px; height: 58px; display: grid; place-items: center; margin: 0 auto 16px; border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--green), var(--green2)); font-size: 28px; font-weight: 900; }
-    .thanks-card h2 { margin: 0 0 10px; color: var(--navy); text-align: center; line-height: 1.35; font-size: 24px; }
-    .thanks-card > p { margin: 0 0 18px; color: var(--muted); font-weight: 650; text-align: center; }
-
-    .review-box { padding: 16px; border-radius: 18px; background: var(--mint); border: 1px solid rgba(0,168,132,.18); }
-    .review-box h3 { margin: 0 0 8px; color: var(--green); font-size: 17px; line-height: 1.45; }
-    .review-box p { margin: 0; color: var(--muted); font-size: 13px; font-weight: 650; }
-    .copy-text { margin: 14px 0; padding: 14px; border-radius: 16px; background: #fff; border: 1px solid var(--line); color: var(--muted); font-size: 14px; font-weight: 700; }
-
-    .review-btn, .copy-btn, .reset-btn { width: 100%; min-height: 48px; display: grid; place-items: center; margin-top: 10px; border-radius: 999px; border: 0; font-weight: 900; }
-    .review-btn { color: #fff; background: linear-gradient(135deg, var(--green), var(--green2)); }
-    .copy-btn { color: var(--blue); background: var(--sky); }
-    .reset-btn { color: var(--muted); background: #f3f7fa; }
-    .copied { display: none; margin-top: 8px; color: var(--green); font-size: 13px; font-weight: 900; text-align: center; }
-    .copied.is-show { display: block; }
-
-    .demo-controls { width: min(520px, 100%); margin: 18px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .demo-btn { min-height: 46px; border: 0; border-radius: 999px; color: var(--blue); background: #fff; box-shadow: 0 8px 22px rgba(16,47,68,.08); font-weight: 900; font-size: 13px; }
-    .demo-btn.primary { color: var(--navy); background: linear-gradient(135deg, var(--orange), #ffc247); }
-
-    @media (max-width: 520px) {
-      .page { padding: 14px 10px 38px; }
-      .phone { border-radius: 34px; padding: 9px; }
-      .screen { border-radius: 27px; }
-      .hero { padding: 26px 20px 24px; }
-      .hero h1 { font-size: 24px; }
-      .form-area { padding: 16px; }
-      .question-title { align-items: flex-start; flex-direction: column; gap: 5px; }
-      .demo-controls { grid-template-columns: 1fr; }
-    }
+    :root{--navy:#102f44;--navy2:#061d2c;--blue:#126fb2;--blue2:#1ba7e1;--green:#00a884;--green2:#20c997;--orange:#ff9d2e;--yellow:#ffd84d;--sky:#eaf7ff;--mint:#eafff8;--bg:#f5fbff;--white:#fff;--text:#1b2b35;--muted:#617782;--line:#dcebf3;--shadow:0 22px 62px rgba(16,47,68,.16)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(circle at top left,rgba(27,167,223,.16),transparent 34%),radial-gradient(circle at top right,rgba(0,168,132,.13),transparent 31%),linear-gradient(180deg,#f5fbff 0%,#edf9ff 55%,#f8fcff 100%);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Noto Sans JP",sans-serif;line-height:1.75;letter-spacing:.025em;font-feature-settings:"palt"}button,input,textarea,select{font:inherit}button{cursor:pointer}.page{min-height:100vh;padding:18px 14px 52px}.survey-shell{width:min(460px,100%);margin:0 auto}.hotel-header{margin-bottom:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:22px;background:rgba(255,255,255,.9);border:1px solid var(--line);box-shadow:0 10px 28px rgba(16,47,68,.07);backdrop-filter:blur(12px)}.hotel-brand{display:flex;align-items:center;gap:10px;color:var(--navy);font-weight:900;line-height:1.22}.hotel-mark{width:42px;height:42px;display:grid;place-items:center;flex:0 0 auto;border-radius:14px;color:#fff;background:linear-gradient(135deg,var(--navy),var(--blue));font-size:18px;font-weight:900}.hotel-brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.04em;margin-top:2px}.language-pill{flex:0 0 auto;padding:7px 10px;border-radius:999px;color:var(--blue);background:var(--sky);font-size:12px;font-weight:900}.phone{padding:12px;border-radius:44px;background:var(--navy2);box-shadow:var(--shadow)}.screen{overflow:hidden;border-radius:32px;background:#fff}.hero{position:relative;padding:32px 24px 30px;color:#fff;background:linear-gradient(135deg,rgba(16,47,68,.92),rgba(18,111,178,.82)),url("https://www.begump.jp/wp-content/uploads/2025/03/%E5%AF%8C%E5%A3%AB%E5%B1%B1.jpg") center/cover}.hero::after{content:"";position:absolute;inset:auto 0 0;height:90px;background:linear-gradient(0deg,rgba(0,0,0,.22),transparent);pointer-events:none}.hero-inner{position:relative;z-index:1}.stay-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;margin-bottom:22px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.92);font-size:12px;font-weight:900}.stay-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--yellow)}.hero h1{margin:0 0 10px;font-size:27px;line-height:1.32;letter-spacing:-.02em}.hero p{margin:0;color:rgba(255,255,255,.86);font-size:14px;font-weight:650}.summary-card{margin-top:20px;padding:14px;border-radius:18px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.92);font-size:12px;font-weight:800}.summary-card span{display:block;color:rgba(255,255,255,.7);font-size:11px;margin-bottom:2px}.progress-area{padding:17px 20px 0;background:#f8fcff}.progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;color:var(--muted);font-size:12px;font-weight:900}.progress-track{height:8px;overflow:hidden;border-radius:999px;background:#e4f1f8}.progress-fill{width:72%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--green))}.form-area{padding:18px 20px 22px;background:#f8fcff}.form-card{margin-bottom:14px;padding:17px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 20px rgba(16,47,68,.04)}.question-title{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:11px}.question-title label{display:block;color:var(--navy);font-size:14px;font-weight:900;line-height:1.55}.required{flex:0 0 auto;display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:#fff1e3;color:#d76d00;font-size:10px;font-weight:900}.rating{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.rate{height:42px;display:grid;place-items:center;border-radius:13px;color:var(--muted);background:#eef7fc;border:0;font-weight:900;transition:.2s ease}.rate.is-selected{color:#fff;background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 8px 18px rgba(18,111,178,.22)}.rate-labels{display:flex;justify-content:space-between;margin-top:7px;color:var(--muted);font-size:11px;font-weight:700}.choice-grid{display:grid;gap:8px}.choice{display:flex;align-items:center;gap:9px;min-height:43px;padding:10px 12px;border-radius:14px;background:#fbfdff;border:1px solid #d2e4ee;color:var(--text);font-size:13px;font-weight:750}.choice input{accent-color:var(--blue)}textarea,select,input[type="text"]{width:100%;min-height:48px;border-radius:14px;border:1px solid #cfe3ee;background:#fbfdff;padding:12px;color:var(--text);font-weight:650;outline:none}textarea{min-height:94px;resize:vertical}textarea::placeholder,input::placeholder{color:#9aacb6}.hint{margin:8px 0 0;color:var(--muted);font-size:12px;font-weight:700}.submit-btn{width:100%;min-height:55px;margin-top:12px;border:0;border-radius:999px;color:var(--navy);background:linear-gradient(135deg,var(--orange),#ffc247);box-shadow:0 14px 28px rgba(255,157,46,.28);font-weight:900}.privacy{margin:14px 0 0;color:var(--muted);font-size:12px;font-weight:700;text-align:center}.thanks-area{display:none;padding:26px 20px 28px;background:#f8fcff}.thanks-area.is-show{display:block}.thanks-card{padding:23px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 32px rgba(16,47,68,.08)}.check-icon{width:60px;height:60px;display:grid;place-items:center;margin:0 auto 16px;border-radius:50%;color:#fff;background:linear-gradient(135deg,var(--green),var(--green2));font-size:28px;font-weight:900}.thanks-card h2{margin:0 0 10px;color:var(--navy);text-align:center;line-height:1.35;font-size:24px}.thanks-card>p{margin:0 0 18px;color:var(--muted);font-weight:650;text-align:center;font-size:14px}.review-box{padding:16px;border-radius:18px;background:var(--mint);border:1px solid rgba(0,168,132,.18)}.review-box h3{margin:0 0 8px;color:var(--green);font-size:17px;line-height:1.45}.review-box p{margin:0;color:var(--muted);font-size:13px;font-weight:650}.copy-text{margin:14px 0;padding:14px;border-radius:16px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:14px;font-weight:700}.review-btn,.copy-btn,.reset-btn{width:100%;min-height:48px;display:grid;place-items:center;margin-top:10px;border-radius:999px;border:0;font-weight:900}.review-btn{color:#fff;background:linear-gradient(135deg,var(--green),var(--green2))}.copy-btn{color:var(--blue);background:var(--sky)}.reset-btn{color:var(--muted);background:#f3f7fa}.copied{display:none;margin-top:8px;color:var(--green);font-size:13px;font-weight:900;text-align:center}.copied.is-show{display:block}@media(max-width:520px){.page{padding:12px 8px 36px}.hotel-header{border-radius:18px}.phone{border-radius:34px;padding:9px}.screen{border-radius:27px}.hero{padding:28px 20px 26px}.hero h1{font-size:24px}.form-area{padding:16px}.progress-area{padding-left:16px;padding-right:16px}.question-title{flex-direction:column;gap:5px}}
   </style>
 </head>
 
 <body>
   <main class="page">
-    <div class="demo-label">DEMO MODE｜回答内容は保存されません</div>
+    <div class="survey-shell">
+      <header class="hotel-header">
+        <div class="hotel-brand">
+          <div class="hotel-mark">S</div>
+          <div>
+            サンプルホテル山中湖
+            <small>SAMPLE HOTEL YAMANAKAKO</small>
+          </div>
+        </div>
+        <div class="language-pill">日本語</div>
+      </header>
 
-    <div class="phone">
-      <div class="screen">
-        <div id="surveyScreen">
-          <section class="hero">
-            <div class="logo"><span class="logo-mark">G</span>Google口コミラボ</div>
-            <h1>ご宿泊アンケートにご協力ください</h1>
-            <p>より良い施設づくりのため、1分ほどでご回答いただけます。</p>
-            <div class="facility">サンプルホテル 山中湖｜宿泊者アンケート</div>
-          </section>
+      <div class="phone">
+        <div class="screen">
+          <div id="surveyScreen">
+            <section class="hero">
+              <div class="hero-inner">
+                <div class="stay-badge">ご宿泊者様専用アンケート</div>
+                <h1>ご宿泊はいかがでしたか？</h1>
+                <p>今後のサービス向上のため、率直なご感想をお聞かせください。</p>
+                <div class="summary-card">
+                  <span>回答時間の目安</span>
+                  約1分｜スマートフォンで簡単に回答できます
+                </div>
+              </div>
+            </section>
 
-          <div class="step-bar">
-            <div class="progress-label"><span>回答の目安：約1分</span><span>3 / 5</span></div>
-            <div class="progress-track"><div class="progress-fill"></div></div>
+            <div class="progress-area">
+              <div class="progress-top"><span>アンケート入力中</span><span>残りわずか</span></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
+            </div>
+
+            <form class="form-area" id="surveyForm">
+              <div class="form-card">
+                <div class="question-title"><label>今回のご宿泊の総合満足度を教えてください</label><span class="required">必須</span></div>
+                <div class="rating" data-rating="total">
+                  <button type="button" class="rate">1</button><button type="button" class="rate">2</button><button type="button" class="rate">3</button><button type="button" class="rate">4</button><button type="button" class="rate is-selected">5</button>
+                </div>
+                <div class="rate-labels"><span>不満</span><span>とても満足</span></div>
+              </div>
+
+              <div class="form-card">
+                <div class="question-title"><label>特に良かった点を教えてください</label><span class="required">必須</span></div>
+                <textarea id="goodComment" placeholder="例：スタッフの対応が丁寧で、客室も清潔でした。">スタッフの方が丁寧で、客室も清潔でした。家族で快適に過ごせました。</textarea>
+                <p class="hint">いただいたお声は、サービス向上の参考にさせていただきます。</p>
+              </div>
+
+              <div class="form-card">
+                <div class="question-title"><label>印象に残った項目をお選びください</label></div>
+                <div class="choice-grid">
+                  <label class="choice"><input type="checkbox" checked> スタッフの接客</label>
+                  <label class="choice"><input type="checkbox" checked> 客室の清潔感</label>
+                  <label class="choice"><input type="checkbox"> 食事・ドリンク</label>
+                  <label class="choice"><input type="checkbox"> 景色・ロケーション</label>
+                  <label class="choice"><input type="checkbox"> サウナ・温浴体験</label>
+                </div>
+              </div>
+
+              <div class="form-card">
+                <div class="question-title"><label>改善してほしい点があれば教えてください</label></div>
+                <textarea placeholder="例：案内表示がもう少し分かりやすいと嬉しいです。">案内表示がもう少し分かりやすいと嬉しいです。</textarea>
+              </div>
+
+              <div class="form-card">
+                <div class="question-title"><label>また利用したいと思いますか？</label></div>
+                <select><option>ぜひ利用したい</option><option>機会があれば利用したい</option><option>まだ分からない</option></select>
+              </div>
+
+              <button type="submit" class="submit-btn">アンケートを送信する</button>
+              <p class="privacy">ご回答内容は、施設のサービス改善のために活用いたします。</p>
+            </form>
           </div>
 
-          <form class="form-area" id="surveyForm">
-            <div class="form-card">
-              <div class="question-title"><label>今回のご宿泊の総合満足度</label><span class="required">必須</span></div>
-              <div class="rating" data-rating="total">
-                <button type="button" class="rate">1</button><button type="button" class="rate">2</button><button type="button" class="rate">3</button><button type="button" class="rate">4</button><button type="button" class="rate is-selected">5</button>
+          <div class="thanks-area" id="thanksScreen">
+            <div class="thanks-card">
+              <div class="check-icon">✓</div>
+              <h2>ご回答ありがとうございました。</h2>
+              <p>いただいたご意見は、今後のサービス向上のために大切に活用いたします。</p>
+              <div class="review-box">
+                <h3>よろしければGoogle口コミもお願いできますか？</h3>
+                <p>先ほどのご感想をコピーして、そのまま口コミに貼り付けできます。</p>
               </div>
+              <div class="copy-text" id="copyText">スタッフの方が丁寧で、客室も清潔でした。家族で快適に過ごせました。</div>
+              <button type="button" class="copy-btn" id="copyBtn">コメントをコピーする</button>
+              <div class="copied" id="copied">コピーしました</div>
+              <button type="button" class="review-btn" id="reviewBtn">Google口コミを書く</button>
+              <button type="button" class="reset-btn" id="resetBtn">アンケートに戻る</button>
             </div>
-
-            <div class="form-card">
-              <div class="question-title"><label>特に良かった点を教えてください</label><span class="required">必須</span></div>
-              <textarea id="goodComment">スタッフの方が丁寧で、客室も清潔でした。家族で快適に過ごせました。</textarea>
-              <p class="hint">送信後、この内容を口コミ投稿用にコピーできます。</p>
-            </div>
-
-            <div class="form-card">
-              <div class="question-title"><label>印象に残った項目</label></div>
-              <div class="choice-grid">
-                <label class="choice"><input type="checkbox" checked> スタッフの接客</label>
-                <label class="choice"><input type="checkbox" checked> 客室の清潔感</label>
-                <label class="choice"><input type="checkbox"> 食事・ドリンク</label>
-                <label class="choice"><input type="checkbox"> サウナ・温浴体験</label>
-              </div>
-            </div>
-
-            <div class="form-card">
-              <div class="question-title"><label>改善してほしい点があれば教えてください</label></div>
-              <textarea>案内表示がもう少し分かりやすいと嬉しいです。</textarea>
-            </div>
-
-            <div class="form-card">
-              <div class="question-title"><label>また利用したいと思いますか？</label></div>
-              <select><option>ぜひ利用したい</option><option>機会があれば利用したい</option><option>まだ分からない</option></select>
-            </div>
-
-            <button type="submit" class="submit-btn">アンケートを送信する</button>
-            <p class="privacy">※ このデモ画面では回答内容は保存されません。</p>
-          </form>
-        </div>
-
-        <div class="thanks-area" id="thanksScreen">
-          <div class="thanks-card">
-            <div class="check-icon">✓</div>
-            <h2>ご回答ありがとうございました。</h2>
-            <p>いただいたご意見は、より良い施設運営のために活用いたします。</p>
-            <div class="review-box">
-              <h3>よろしければGoogle口コミもお願いできますか？</h3>
-              <p>先ほどのご感想をコピーして、そのまま口コミに貼り付けできます。</p>
-            </div>
-            <div class="copy-text" id="copyText">スタッフの方が丁寧で、客室も清潔でした。家族で快適に過ごせました。</div>
-            <button type="button" class="copy-btn" id="copyBtn">コメントをコピーする</button>
-            <div class="copied" id="copied">コピーしました！</div>
-            <button type="button" class="review-btn" id="reviewBtn">Google口コミを書く</button>
-            <button type="button" class="reset-btn" id="resetBtn">最初に戻る</button>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="demo-controls">
-      <button class="demo-btn primary" id="autoDemo">録画用：自動デモ再生</button>
-      <button class="demo-btn" id="smoothScroll">なめらかスクロール</button>
-    </div>
   </main>
 
   <script>
-    const surveyScreen = document.getElementById("surveyScreen");
-    const thanksScreen = document.getElementById("thanksScreen");
-    const surveyForm = document.getElementById("surveyForm");
-    const resetBtn = document.getElementById("resetBtn");
-    const copyBtn = document.getElementById("copyBtn");
-    const reviewBtn = document.getElementById("reviewBtn");
-    const copied = document.getElementById("copied");
-    const goodComment = document.getElementById("goodComment");
-    const copyText = document.getElementById("copyText");
+    const surveyScreen=document.getElementById('surveyScreen');
+    const thanksScreen=document.getElementById('thanksScreen');
+    const surveyForm=document.getElementById('surveyForm');
+    const resetBtn=document.getElementById('resetBtn');
+    const copyBtn=document.getElementById('copyBtn');
+    const reviewBtn=document.getElementById('reviewBtn');
+    const copied=document.getElementById('copied');
+    const goodComment=document.getElementById('goodComment');
+    const copyText=document.getElementById('copyText');
 
-    document.querySelectorAll(".rating").forEach((group) => {
-      const buttons = group.querySelectorAll(".rate");
-      buttons.forEach((button, index) => {
-        button.addEventListener("click", () => {
-          buttons.forEach((btn, btnIndex) => btn.classList.toggle("is-selected", btnIndex <= index));
+    document.querySelectorAll('.rating').forEach(group=>{
+      const buttons=group.querySelectorAll('.rate');
+      buttons.forEach((button,index)=>{
+        button.addEventListener('click',()=>{
+          buttons.forEach((btn,btnIndex)=>btn.classList.toggle('is-selected',btnIndex<=index));
         });
       });
     });
 
-    function showThanks() {
-      const text = goodComment.value.trim() || "スタッフの方が丁寧で、客室も清潔でした。家族で快適に過ごせました。";
-      copyText.textContent = text;
-      surveyScreen.style.display = "none";
-      thanksScreen.classList.add("is-show");
-      copied.classList.remove("is-show");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    function showThanks(){
+      const text=goodComment.value.trim()||'スタッフの方が丁寧で、客室も清潔でした。家族で快適に過ごせました。';
+      copyText.textContent=text;
+      surveyScreen.style.display='none';
+      thanksScreen.classList.add('is-show');
+      copied.classList.remove('is-show');
+      window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    surveyForm.addEventListener("submit", (event) => { event.preventDefault(); showThanks(); });
-    resetBtn.addEventListener("click", () => { thanksScreen.classList.remove("is-show"); surveyScreen.style.display = "block"; copied.classList.remove("is-show"); window.scrollTo({ top: 0, behavior: "smooth" }); });
-    copyBtn.addEventListener("click", async () => { try { await navigator.clipboard.writeText(copyText.textContent); } catch (e) {} copied.classList.add("is-show"); });
-    reviewBtn.addEventListener("click", () => { alert("デモ画面のため、実際のGoogle口コミページには遷移しません。"); });
-
-    document.getElementById("smoothScroll").addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "instant" });
-      setTimeout(() => {
-        let speed = 0.48; window.demoScrolling = true;
-        function scroll() {
-          if (!window.demoScrolling) return;
-          window.scrollBy(0, speed);
-          if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) { window.demoScrolling = false; return; }
-          requestAnimationFrame(scroll);
-        }
-        scroll();
-      }, 800);
-    });
-
-    document.getElementById("autoDemo").addEventListener("click", () => {
-      thanksScreen.classList.remove("is-show"); surveyScreen.style.display = "block"; copied.classList.remove("is-show"); window.scrollTo({ top: 0, behavior: "instant" });
-      setTimeout(() => {
-        const targetY = document.querySelector(".submit-btn").getBoundingClientRect().top + window.pageYOffset - 190;
-        const startY = window.scrollY; const distance = targetY - startY; const duration = 4300; const start = performance.now();
-        function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-        function animate(now) {
-          const elapsed = now - start; const progress = Math.min(elapsed / duration, 1);
-          window.scrollTo(0, startY + distance * easeInOutCubic(progress));
-          if (progress < 1) requestAnimationFrame(animate); else setTimeout(showThanks, 700);
-        }
-        requestAnimationFrame(animate);
-      }, 1000);
-    });
+    surveyForm.addEventListener('submit',event=>{event.preventDefault();showThanks();});
+    resetBtn.addEventListener('click',()=>{thanksScreen.classList.remove('is-show');surveyScreen.style.display='block';copied.classList.remove('is-show');window.scrollTo({top:0,behavior:'smooth'});});
+    copyBtn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(copyText.textContent)}catch(e){} copied.classList.add('is-show');});
+    reviewBtn.addEventListener('click',()=>{alert('Google口コミページへ移動します。');});
   </script>
 </body>
 </html>
